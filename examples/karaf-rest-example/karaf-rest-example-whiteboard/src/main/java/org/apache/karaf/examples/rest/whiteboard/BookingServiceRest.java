@@ -28,53 +28,93 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Path("/booking")
 @Component(service = BookingServiceRest.class, property = { "osgi.jaxrs.resource=true" })
 public class BookingServiceRest implements BookingService {
     
-    private final Map<Long, Booking> bookings = new HashMap<>();
+	List<Booking> userList = new ArrayList<>();
 
     @Override
-    @Path("/")
-    @Produces("application/json")
     @GET
-    public Collection<Booking> list() {
-        return bookings.values();
+	@Path("/getusers")
+	@Produces({ "application/xml", "application/json" })
+	@Consumes({ "application/xml", "application/json", "application/x-www-form-urlencoded" })
+    public  List<Booking> list() {
+        return userList;
     }
 
     @Override
-    @Path("/{id}")
-    @Produces("application/json")
     @GET
-    public Booking get(@PathParam("id") Long id) {
-        return bookings.get(id);
+	@Path("/getuser/{id}")
+	@Produces({ "application/xml", "application/json" })
+	@Consumes({ "application/xml", "application/json", "application/x-www-form-urlencoded" })
+    public Booking getUser(@PathParam("id") String id) {
+        return findById(id);
     }
     
+    
     @Override
-    @Path("/")
-    @Consumes("application/json")
     @POST
-    public void add(Booking booking) {
-        bookings.put(booking.getId(), booking);
-    }
-
+	@Path("/adduser")
+	@Produces({ "application/xml", "application/json" })
+	@Consumes({ "application/xml", "application/json", "application/x-www-form-urlencoded" })
+	public Response addUser(Booking user) {
+		for (Booking element : userList) {
+			if (element.getId() == user.getId()) {
+				return Response.status(Response.Status.CONFLICT).build();
+			}
+		}
+		userList.add(user);
+		return Response.ok(user).build();
+	}
+    
     @Override
-    @Path("/")
-    @Consumes("application/json")
     @PUT
-    public void update(Booking booking) {
-        bookings.remove(booking.getId());
-        bookings.put(booking.getId(), booking);
-    }
+	@Path("/updateuser")
+	@Produces({ "application/xml", "application/json" })
+	@Consumes({ "application/xml", "application/json", "application/x-www-form-urlencoded" })
+	public Response updateUser(String id, Booking user) {
+		Booking existingBooking = findById(id);
+		if (existingBooking == null) {
+			return Response.status(Response.Status.NOT_FOUND).build();
+		}
+		if (existingBooking.equals(user)) {
+			return Response.notModified().build();
+		}
+		userList.add(user);
+		return Response.ok().build();
+	}
+
+    
 
     @Override
-    @Path("/{id}")
     @DELETE
-    public void remove(@PathParam("id") Long id) {
-        bookings.remove(id);
+    @Path("/deleteuser")
+	@Produces({ "application/xml", "application/json" })
+	@Consumes({ "application/xml", "application/json", "application/x-www-form-urlencoded" })
+    public Response deleteUser(@PathParam("id") String id) {
+    	 Booking user = findById(id);
+ 	    if (user == null) {
+ 	        return Response.status(Response.Status.NOT_FOUND).build();
+ 	    }
+ 	    userList.remove(user);
+ 	    return Response.ok().build();
     }
+    
+    private Booking findById(String id) {
+		for (Booking user : userList) {
+			if (user.getId() == id) {
+				return user;
+			}
+		}
+		return null;
+	}
 }

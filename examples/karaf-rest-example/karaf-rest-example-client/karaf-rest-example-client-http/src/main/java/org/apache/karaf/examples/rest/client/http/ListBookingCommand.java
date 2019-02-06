@@ -27,7 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Service
-@Command(scope = "booking", name = "list", description = "List booking")
+@Command(scope = "booking", name = "list", description = "List users")
 public class ListBookingCommand implements Action {
 
     @Option(name = "--url", description = "Location of the REST service", required = false, multiValued = false)

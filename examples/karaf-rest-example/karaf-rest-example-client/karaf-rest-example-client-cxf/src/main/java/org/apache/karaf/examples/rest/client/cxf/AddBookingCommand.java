@@ -35,17 +35,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Command(scope = "booking", name = "add", description = "Add booking")
+@Command(scope = "booking", name = "add", description = "Add user")
 public class AddBookingCommand implements Action {
 
-    @Argument(index = 0, name = "id", description = "Booking ID", required = true, multiValued = false)
-    long id;
+    @Argument(index = 0, name = "id", description = "User ID", required = true, multiValued = false)
+    String id;
 
-    @Argument(index = 1, name = "customer", description = "Customer name", required = true, multiValued = false)
-    String customer;
+    @Argument(index = 1, name = "name", description = "User name", required = true, multiValued = false)
+    String name;
 
-    @Argument(index = 2, name = "flight", description = "Flight number", required = true, multiValued = false)
-    String flight;
+//    @Argument(index = 2, name = "flight", description = "Flight number", required = true, multiValued = false)
+//    String flight;
 
     @Option(name = "--url", description = "Location of the REST service", required = false, multiValued = false)
     String restLocation = "http://localhost:8181/cxf/booking/";
@@ -54,13 +54,13 @@ public class AddBookingCommand implements Action {
     public Object execute() throws Exception {
         Booking booking = new Booking();
         booking.setId(id);
-        booking.setFlight(flight);
-        booking.setCustomer(customer);
+        booking.setName(name);
+        // booking.setCustomer(customer);
 
         List providers = new ArrayList();
         providers.add(new JacksonJsonProvider());
         WebClient webClient = WebClient.create(restLocation, providers);
-        webClient.header("Content-Type", MediaType.APPLICATION_JSON).post(booking);
+        webClient.header("Content-Type", MediaType.APPLICATION_FORM_URLENCODED).post(booking);
 
         return null;
     }

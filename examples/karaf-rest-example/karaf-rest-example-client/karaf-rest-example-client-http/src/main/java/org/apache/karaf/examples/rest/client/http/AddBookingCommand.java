@@ -31,17 +31,17 @@ import java.net.URL;
 import java.nio.Buffer;
 
 @Service
-@Command(scope = "booking", name = "add", description = "Add booking")
+@Command(scope = "booking", name = "add", description = "Add user")
 public class AddBookingCommand implements Action {
 
-    @Argument(index = 0, name = "id", description = "Booking ID", required = true, multiValued = false)
+    @Argument(index = 0, name = "id", description = "User ID", required = true, multiValued = false)
     long id;
 
-    @Argument(index = 1, name = "customer", description = "Customer name", required = true, multiValued = false)
-    String customer;
+    @Argument(index = 1, name = "name", description = "User name", required = true, multiValued = false)
+    String name;
 
-    @Argument(index = 2, name = "flight", description = "Flight number", required = true, multiValued = false)
-    String flight;
+//    @Argument(index = 2, name = "flight", description = "Flight number", required = true, multiValued = false)
+//    String flight;
 
     @Option(name = "--url", description = "Location of the REST service", required = false, multiValued = false)
     String restLocation = "http://localhost:8181/cxf/booking/";
@@ -58,8 +58,7 @@ public class AddBookingCommand implements Action {
 
         String json = "{"
                 + "\"id\": " + id + ","
-                + "\"flight\": \"" + flight + "\","
-                + "\"customer\": \"" + customer + "\""
+                + "\"name\": \"" + name + "\","
                 + "}";
 
         OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());

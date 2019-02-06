@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Command(scope = "booking", name = "list", description = "List booking")
+@Command(scope = "booking", name = "list", description = "List users")
 public class ListBookingCommand implements Action {
 
     @Option(name = "--url", description = "Location of the REST service", required = false, multiValued = false)
@@ -43,7 +43,7 @@ public class ListBookingCommand implements Action {
 
         List<Booking> bookings = (List<Booking>) webClient.accept(MediaType.APPLICATION_JSON).getCollection(Booking.class);
         for (Booking booking : bookings) {
-            System.out.println(booking.getId() + " " + booking.getCustomer() + " " + booking.getFlight());
+            System.out.println(booking.getId() + " " + booking.getName() );
         }
 
         return null;

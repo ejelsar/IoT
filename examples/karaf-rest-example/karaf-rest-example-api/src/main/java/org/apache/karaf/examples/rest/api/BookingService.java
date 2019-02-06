@@ -16,20 +16,23 @@
  */
 package org.apache.karaf.examples.rest.api;
 
-import java.util.Collection;
+import java.util.List;
+
+import javax.ws.rs.core.Response;
+
 
 /**
  * Simple interface describing the booking service.
  */
 public interface BookingService {
 
-    Collection<Booking> list();
+	 List<Booking> list();
 
-    Booking get(Long id);
+	 Booking getUser(String id) ;
 
-    void add(Booking booking);
-    
-    void update(Booking booking);
-    
-    void remove(Long id);
+	 Response addUser(Booking user) ;
+	
+	 Response updateUser(String id,Booking user) ;
+	
+	 Response deleteUser(String id) ;
 }

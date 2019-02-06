@@ -21,31 +21,24 @@ package org.apache.karaf.examples.rest.api;
  */
 public class Booking {
 
-    private Long id;
-    private String customer;
-    private String flight;
+	String id;
+	String name;
 
-    public Long getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
+	
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getCustomer() {
-        return customer;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setCustomer(String customer) {
-        this.customer = customer;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getFlight() {
-        return flight;
-    }
-
-    public void setFlight(String flight) {
-        this.flight = flight;
-    }
 }
