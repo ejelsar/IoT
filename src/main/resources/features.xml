@@ -23,7 +23,7 @@
         <feature>http</feature>
         <feature>cxf</feature>
         <feature>this-project-dependants</feature>
-        <bundle>mvn:jelena.eshopping/ebasket/1.0-SNAPSHOT</bundle>
+        <bundle>mvn:jelena.eshopping/ebasket/0.0.2-SNAPSHOT</bundle>
     </feature>
     <feature name="this-project-dependants">
         <!-- Dependent bundles if you have any. This project doesn't have one

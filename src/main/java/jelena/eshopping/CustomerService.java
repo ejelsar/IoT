@@ -16,7 +16,9 @@
 package jelena.eshopping;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -76,6 +78,24 @@ public class CustomerService {
         Customer c = customers.get(idNumber);
         return c;
     }
+    
+    /**
+     * This method is mapped to an HTTP GET of 'http://localhost:8181/cxf/crm/customerservice/customers/'.  
+     * <p/>
+     * The method returns a Customer list - for creating the HTTP response, this object is marshaled into XML using JAXB.
+     * <p/>
+     * For example: surfing to 'http://localhost:8181/cxf/crm/customerservice/customers/' will show you the information of
+     * customer list in XML format.
+     */
+    @GET
+    @Path("/customers/")
+    @Produces({"application/xml","application/json"})
+    @Consumes({"application/xml","application/json","application/x-www-form-urlencoded"})
+    public List<Customer> getCustomers() {
+        LOG.info("Invoking getCustomers");
+        return new ArrayList<Customer>(customers.values());
+    }
+    
 
     /**
      * Using HTTP PUT, we can can upload the XML representation of a customer object.  This operation will be mapped
@@ -144,6 +164,8 @@ public class CustomerService {
      */
     @DELETE
     @Path("/customers/{id}/")
+    @Produces({"application/xml","application/json"})
+    @Consumes({"application/xml","application/json","application/x-www-form-urlencoded"})
     public Response deleteCustomer( @PathParam("id") String id) {
         LOG.info("Invoking deleteCustomer, Customer id is: {}", id);
         long idNumber = Long.parseLong(id);
@@ -169,7 +191,10 @@ public class CustomerService {
      * - display the order information itself in XML format
      * - display details about a product in the order in XML format in a path relative to the URI defined here
      */
+    @GET
     @Path("/orders/{orderId}/")
+    @Produces({"application/xml","application/json"})
+    @Consumes({"application/xml","application/json","application/x-www-form-urlencoded"})
     public Order getOrder(@PathParam("orderId") String orderId) {
         LOG.info("Invoking getOrder, Order id is: {}", orderId);
         long idNumber = Long.parseLong(orderId);
