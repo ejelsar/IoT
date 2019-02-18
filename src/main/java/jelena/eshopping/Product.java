@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Product")
 public class Product {
     private long id;
-    private String description;
+    private long price;
+
 
     public long getId() {
         return id;
@@ -42,11 +43,12 @@ public class Product {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public long getPrice() {
+		return price;
+	}
 
-    public void setDescription(String d) {
-        this.description = d;
-    }
+	public void setPrice(long price) {
+		this.price = price;
+	}
+
 }

@@ -15,7 +15,17 @@
  */
 package jelena.eshopping;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Customer class is just a plain old java object, with a few properties and getters and setters.
@@ -49,4 +59,6 @@ public class Customer {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }
