@@ -1,6 +1,6 @@
-# Karaf CXF REST QuickStart
+# Karaf CXF REST EShop 
 
-This quickstart demonstrates how to create a RESTful (JAX-RS) web service using CXF and expose it through the OSGi HTTP Service.
+This EShop demonstrates how to create a RESTful (JAX-RS) web service using CXF and expose it through the OSGi HTTP Service.
 
 The REST service provides a customer service that supports the following operations
 
@@ -46,22 +46,61 @@ You can use a command-line utility, such as cURL or wget, to perform the HTTP re
 1. Open a command prompt and change directory to `cxf-cdi`.
 2. Run the following curl commands (curl commands may not be available on all platforms):
 
-    * Create a customer
 
-            curl -X POST -T src/test/resources/add_customer.xml -H "Content-Type: text/xml" http://localhost:8181/cxf/crm/customerservice/customers
+    * Create a customer
+            curl -X POST -T src\test\resources\add_customer.json -H "Content-Type: application/json" http://localhost:8181/cxf/crm/customerservice/customers
 
     * Retrieve the customer instance with id 123
-
             curl http://localhost:8181/cxf/crm/customerservice/customers/123
 
     * Update the customer instance with id 123
-
-            curl -X PUT -T src/test/resources/update_customer.xml -H "Content-Type: text/xml" http://localhost:8181/cxf/crm/customerservice/customers
+            curl -X PUT -T src\test\resources\update_customer.json -H "Content-Type: application/json" http://localhost:8181/cxf/crm/customerservice/customers
 
     * Delete the customer instance with id 123
-
              curl -X DELETE http://localhost:8181/cxf/crm/customerservice/customers/123
+             
+    * Retrieve all customers
+    			curl http://localhost:8181/cxf/crm/customerservice/customers
+    			  
+    * Create a product
+            curl -X POST -T src\test\resources\add_product.json -H "Content-Type: application/json" http://localhost:8181/cxf/crm/customerservice/products
 
+    * Retrieve the product instance with id 323
+            curl -v http://localhost:8181/cxf/crm/customerservice/products/323 
 
+    * Update the product instance with id 323
+            curl -X PUT -T src\test\resources\update_products.json -H "Content-Type: application/json" http://localhost:8181/cxf/crm/customerservice/products
 
+    * Delete the product instance with id 323
+            curl -X DELETE http://localhost:8181/cxf/crm/customerservice/products/323   
+             
+    * Retrieve all products
+            curl -v http://localhost:8181/cxf/crm/customerservice/products/      
+            
+    * Create a order
+            curl -X POST -T src\test\resources\add_order.json -H "Content-Type: application/json" http://localhost:8181/cxf/crm/customerservice/customers/123/orders
+
+    * Retrieve the order instance with id 223
+            curl -v http://localhost:8181/cxf/crm/customerservice/customers/123/orders/223 -H "Accept: application/json" 
+
+    * Delete the order instance with id 223
+            curl -X DELETE http://localhost:8181/cxf/crm/customerservice/customers/123/orders/223   
+             
+    * Retrieve all orders
+           curl -v http://localhost:8181/cxf/crm/customerservice/customers/123/orders                     
+
+	* Add existing product 323 to order 223
+			curl -X PUT http://localhost:8181/cxf/crm/customerservice/customers/123/orders/223/products/323  -H "Content-Type: application/json"
+			
+	* Remove product 323 from order 223
+			curl -X DELETE http://localhost:8181/cxf/crm/customerservice/customers/123/orders/223/products/323
+			
+	* Retrieve all products from order 223	
+			curl -X DELETE http://localhost:8181/cxf/crm/customerservice/customers/123/orders/223/products/
+			
+	* Retrieve product 323 from order 223
+			curl -X DELETE http://localhost:8181/cxf/crm/customerservice/customers/123/orders/223/products/323
+			
+ 
+ 	
 
