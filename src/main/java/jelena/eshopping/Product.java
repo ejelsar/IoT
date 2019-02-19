@@ -33,9 +33,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Product {
     private long id;
     private long price;
+    private int quantityOrdered;
 
 
-    public long getId() {
+    public int getQuantityOrdered() {
+		return quantityOrdered;
+	}
+
+	public void setQuantityOrdered(int quantityOrdered) {
+		this.quantityOrdered = quantityOrdered;
+	}
+
+	public long getId() {
         return id;
     }
     

@@ -50,12 +50,20 @@ public class Order {
     private long id;
     private String description;
     Map<Long, Product> products = new HashMap<Long, Product>();
+	long currentOrderProductId = 423;
+    private long total=0;
+   
 
-    public Order() {
-        init();
-    }
 
-    public long getId() {
+    public long getTotal() {
+		return total;
+	}
+
+	public void setTotal(long total) {
+		this.total = total;
+	}
+
+	public long getId() {
         return id;
     }
 
@@ -71,55 +79,30 @@ public class Order {
         this.description = d;
     }
 
-    /**
-     * This method is mapped to an HTTP GET of 'products/{productId}', relative to the URL that point to this Order resource
-     * itself.
-     * The value for {productId} will be passed to this message as a parameter, using the @PathParam annotation.
-     * 
-
-     * The method returns an Product object - for creating the HTTP response, this object is marshaled into XML using JAXB.
-     * 
-
-     * For example: accessing 'http://localhost:8181/cxf/crm/customerservice/orders/223/products/323' will first trigger the
-     * CustomerService's getOrder() method to return the Order instance for order 223 and afterwards, it will use the remaining
-     * part of the URI ('products/323') to map to this method and return the product details for product 323 in this order.
-     */
-    @GET
-    @Path("products/{productId}/")
-    @Produces({ "application/xml", "application/json" })
-    public Product getProduct(@PathParam("productId") int productId) {
-        LOG.info("----invoking getProduct with id: " + productId);
+    public Product getProduct(@PathParam("productId") long productId) {
         Product p = products.get(new Long(productId));
         return p;
     }
     
-    /**
-	 * This method is mapped to an HTTP GET of
-	 * 'http://localhost:8181/cxf/crm/customerservice/customers/'.
-	 * <p/>
-	 * The method returns a Customer list - for creating the HTTP response, this
-	 * object is marshaled into XML using JAXB.
-	 * <p/>
-	 * For example: surfing to
-	 * 'http://localhost:8181/cxf/crm/customerservice/customers/' will show you the
-	 * information of customer list in XML format.
-	 */
-	@GET
-	@Path("/products/")
-	@Produces({ "application/xml", "application/json" })
-	@Consumes({ "application/xml", "application/json", "application/x-www-form-urlencoded" })
 	public List<Product> getProducts() {
-		LOG.info("Invoking getProducts");
 		return new ArrayList<Product>(products.values());
 	}
 	
+	public void deleteProduct(long productId) {
+		Product p=products.get(productId);
+		total-=(p.getPrice()*p.getQuantityOrdered());
+		products.remove(productId);			
+	}
+	
+	public void addProduct(Product product) {
+		if(products.get(product.getId()) == null) {
+			products.put(product.getId(), product);		
+		}
+		int quantity=product.getQuantityOrdered();
+		product.setQuantityOrdered(++quantity);
+		total+=product.getPrice();	
+	}
 
 
-    final void init() {
-        Product p = new Product();
-        p.setId(323);
-        p.setPrice(20000);
-        products.put(p.getId(), p);
-    }
 }
 

@@ -15,14 +15,20 @@
  */
 package jelena.eshopping;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +47,18 @@ import org.slf4j.LoggerFactory;
  */
 @XmlRootElement(name = "Customer")
 public class Customer {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(Order.class);
+	
     private long id;
     private String name;
+    Map<Long, Order> orders = new HashMap<Long, Order>();
+    long currentOrderId = 223;
+    
+    
+    public Customer() {
+        init();
+    }
 
     public long getId() {
         return id;
@@ -58,6 +74,34 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
+    }
+	public Order getOrder(@PathParam("orderId") String orderId) {
+		long idNumber = Long.parseLong(orderId);
+		Order o = orders.get(idNumber);
+		return o;
+	}
+
+	public List<Order> getOrders() {
+		return new ArrayList<Order>(orders.values());
+	}
+	
+	
+	public void addOrder(Order order) {
+		order.setId(++currentOrderId);
+		orders.put(order.getId(), order);		
+	}
+	
+	public void deleteOrder(long orderID) {
+		orders.remove(orderID);		
+	}
+
+
+	final void init() {
+		Order o = new Order();
+		o.setDescription("order 223");
+		o.setId(currentOrderId);
+		
+        orders.put(o.getId(), o);
     }
 
 
